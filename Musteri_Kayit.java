@@ -93,8 +93,13 @@ public class Musteri_Kayit extends JFrame {
 						alert.showMessageDialog(rootPane, "Şifrenizi Kontrol Edin !");
 					}
 					else {
-						service.musteri_Ekle(musteriad.getText(), sifre.getText());
-						alert.showMessageDialog(rootPane, "Müşteri Başarı İle Kayıt Edildi !");
+						boolean check = service.musteri_Ekle(musteriad.getText(), sifre.getText());
+						if(check == true) {
+						alert.showMessageDialog(rootPane, "Müşteri Başarı İle Kayıt Edildi Menüden Giriş Yapabilirsiniz!");
+						}
+						else {
+							alert.showMessageDialog(rootPane, "Müşteri Kayıtlı !");
+						}
 					}
 					
 				} catch (SQLException e1) {

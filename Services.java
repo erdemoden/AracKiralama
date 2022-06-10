@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.swing.JOptionPane;
+
 
 public class Services {
 
@@ -30,23 +32,40 @@ public class Services {
 		
 		}
 	
-	public void musteri_Ekle(String isim,String sifre) throws SQLException {
+	public boolean musteri_Ekle(String isim,String sifre) throws SQLException {
 		statement = con.createStatement();
-		String sorgu = ("Insert into Müşteri (isim,şifre) VALUES("+"'"+isim+"'"+","+"'"+sifre+"'"+")");
-		String sorgu0 = ("SELECT Case WHEN EXISTS(SELECT*from Müşteri where isim ="+"'"+isim+"'"+")"+"THEN 'true' ELSE 'false' END as kontrol");
-		//"SELECT Case WHEN EXISTS(SELECT*from Müşteri where isim ="+"'"+isim+"'"+")"+"THEN 'true' ELSE 'false' END as check"
+		String sorgu = ("Insert into Musteri (isim,şifre) VALUES("+"'"+isim+"'"+","+"'"+sifre+"'"+")");
+		String sorgu0 = ("SELECT Case WHEN EXISTS(SELECT*from Musteri where isim ="+"'"+isim+"'"+")"+"THEN 'true' ELSE 'false' END as kontrol");
 		ResultSet rs = statement.executeQuery(sorgu0);
 		while(rs.next()) {
 			String check = rs.getString("kontrol");
-			System.out.println(check);
+			if(check.equals("true")) {
+				return false;
+			}
+			else {
+				statement.executeUpdate(sorgu);
+				return true;
+			}
 		}
-		//statement.executeUpdate(sorgu);
+		return false;
 	}
 	
-	public void firma_Ekle(String isim,String sifre,String sehir) throws SQLException {
+	public boolean firma_Ekle(String isim,String sifre,String sehir) throws SQLException {
 		statement = con.createStatement();
 		String sorgu = ("Insert into Firma (isim,şifre,şehir) VALUES("+"'"+isim+"'"+","+"'"+sifre+"'"+","+"'"+sehir+"'"+")");
-		statement.executeUpdate(sorgu);
+		String sorgu0 = ("SELECT Case WHEN EXISTS(SELECT*from Firma where isim ="+"'"+isim+"'"+")"+"THEN 'true' ELSE 'false' END as kontrol");
+		ResultSet rs = statement.executeQuery(sorgu0);
+		while(rs.next()) {
+			String check = rs.getString("kontrol");
+			if(check.equals("true")) {
+				return false;
+			}
+			else {
+				statement.executeUpdate(sorgu);
+				return true;
+			}
+		}
+		return false;
 	}
 	
 }
