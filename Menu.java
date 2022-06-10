@@ -46,6 +46,7 @@ public class Menu extends JFrame {
 	 * Create the frame.
 	 */
 	public Menu() {
+		setResizable(false);
 	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -166,9 +167,14 @@ public class Menu extends JFrame {
 		textField_1.setBounds(63, 172, 173, 35);
 		fPanel.add(textField_1);
 		
-		JButton btnMGirisyap_1 = new JButton("Giriş");
-		btnMGirisyap_1.setBounds(91, 219, 117, 29);
-		fPanel.add(btnMGirisyap_1);
+		JButton btnFGirisyap = new JButton("Giriş");
+		btnFGirisyap.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		btnFGirisyap.setBounds(91, 219, 117, 29);
+		fPanel.add(btnFGirisyap);
 		btnCikis.setBounds(310, 222, 134, 50);
 		contentPane.add(btnCikis);
 		

@@ -11,12 +11,12 @@ import javax.swing.JOptionPane;
 
 public class Services {
 
-	private String kullanici_adi = "sql11498331";
-	private String parola = "LpMPZ9Md2P";
-	private String db_ismi = "sql11498331";
+	private String kullanici_adi = "root";
+	private String parola = "password";
+	private String db_ismi = "patika";
 	
 	
-	private String host = "sql11.freemysqlhosting.net";
+	private String host = "localhost";
 	
 	private int port = 3306;
 	
@@ -34,7 +34,7 @@ public class Services {
 	
 	public boolean musteri_Ekle(String isim,String sifre) throws SQLException {
 		statement = con.createStatement();
-		String sorgu = ("Insert into Musteri (isim,şifre) VALUES("+"'"+isim+"'"+","+"'"+sifre+"'"+")");
+		String sorgu = ("Insert into Musteri (isim,sifre) VALUES("+"'"+isim+"'"+","+"'"+sifre+"'"+")");
 		String sorgu0 = ("SELECT Case WHEN EXISTS(SELECT*from Musteri where isim ="+"'"+isim+"'"+")"+"THEN 'true' ELSE 'false' END as kontrol");
 		ResultSet rs = statement.executeQuery(sorgu0);
 		while(rs.next()) {
@@ -52,7 +52,7 @@ public class Services {
 	
 	public boolean firma_Ekle(String isim,String sifre,String sehir) throws SQLException {
 		statement = con.createStatement();
-		String sorgu = ("Insert into Firma (isim,şifre,şehir) VALUES("+"'"+isim+"'"+","+"'"+sifre+"'"+","+"'"+sehir+"'"+")");
+		String sorgu = ("Insert into Firma (isim,sifre,sehir) VALUES("+"'"+isim+"'"+","+"'"+sifre+"'"+","+"'"+sehir+"'"+")");
 		String sorgu0 = ("SELECT Case WHEN EXISTS(SELECT*from Firma where isim ="+"'"+isim+"'"+")"+"THEN 'true' ELSE 'false' END as kontrol");
 		ResultSet rs = statement.executeQuery(sorgu0);
 		while(rs.next()) {
@@ -66,6 +66,11 @@ public class Services {
 			}
 		}
 		return false;
+	}
+	
+	public void firma_Giris(String isim,String sifre) {
+		String sorgu = ("");
+		
 	}
 	
 }
