@@ -11,9 +11,12 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
@@ -23,8 +26,8 @@ public class Menu extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtIsim;
 	private JTextField txtSifre;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField firgirisim;
+	private JTextField firgirsifre;
 
 	/**
 	 * Launch the application.
@@ -44,10 +47,12 @@ public class Menu extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws SQLException 
 	 */
-	public Menu() {
+	public Menu() throws SQLException {
 		setResizable(false);
-	
+		final JOptionPane alert = new JOptionPane();
+		final Services service = new Services();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -97,6 +102,25 @@ public class Menu extends JFrame {
 		mPanel.add(txtSifre);
 		
 		JButton btnMGirisyap = new JButton("Giriş");
+		btnMGirisyap.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					boolean check = service.musteri_Giris(txtIsim.getText(),txtSifre.getText());
+					if(check == false) {
+						alert.showMessageDialog(rootPane,"Kullanıcı Bulunamadı Lütfen Tekrar Deneyiniz !");
+					}
+					else {
+						MusteriEkran musteriEkran = new MusteriEkran();
+						dispose();
+						musteriEkran.setVisible(true);
+					}
+					
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnMGirisyap.setBounds(91, 219, 117, 29);
 		mPanel.add(btnMGirisyap);
 		
@@ -151,10 +175,10 @@ public class Menu extends JFrame {
 		lblFirmaAd.setBounds(106, 53, 86, 16);
 		fPanel.add(lblFirmaAd);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(63, 81, 173, 35);
-		fPanel.add(textField);
+		firgirisim = new JTextField();
+		firgirisim.setColumns(10);
+		firgirisim.setBounds(63, 81, 173, 35);
+		fPanel.add(firgirisim);
 		
 		JLabel lblSifre_1 = new JLabel("Şifreniz : ");
 		lblSifre_1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -162,15 +186,15 @@ public class Menu extends JFrame {
 		lblSifre_1.setBounds(108, 143, 82, 16);
 		fPanel.add(lblSifre_1);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(63, 172, 173, 35);
-		fPanel.add(textField_1);
+		firgirsifre = new JTextField();
+		firgirsifre.setColumns(10);
+		firgirsifre.setBounds(63, 172, 173, 35);
+		fPanel.add(firgirsifre);
 		
 		JButton btnFGirisyap = new JButton("Giriş");
 		btnFGirisyap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 			}
 		});
 		btnFGirisyap.setBounds(91, 219, 117, 29);

@@ -124,7 +124,13 @@ public class Firma_Kayit extends JFrame {
 		JButton btnMenyeDn = new JButton("Menüye Dön");
 		btnMenyeDn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Menu menu = new Menu();
+				Menu menu = null;
+				try {
+					menu = new Menu();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				dispose();
 				menu.setVisible(true);
 			}

@@ -68,9 +68,35 @@ public class Services {
 		return false;
 	}
 	
-	public void firma_Giris(String isim,String sifre) {
-		String sorgu = ("");
+	public boolean firma_Giris(String isim,String sifre) throws SQLException {
+		String sorgu = ("Select Case WHEN EXISTS(SELECT*from patika.Firma where isim="+"'"+isim+"'"+"and sifre="+"'"+sifre+"'"+")"+"then 'true' else 'false' End as kontrol");
+		ResultSet rs = statement.executeQuery(sorgu);
 		
+		while(rs.next()) {
+			String check = rs.getString("kontrol");
+			if(check.equals("true")) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		return false;
+	}
+	public boolean musteri_Giris(String isim,String sifre) throws SQLException {
+		statement = con.createStatement();
+		String sorgu = ("SELECT Case WHEN EXISTS(SELECT*from patika.Musteri where isim="+"'"+isim+"'"+"AND sifre="+"'"+sifre+"'"+")"+"THEN 'true' ELSE 'false' END as kontrol");
+		ResultSet rs = statement.executeQuery(sorgu);
+		while(rs.next()) {
+			String check = rs.getString("kontrol");
+			if(check.equals("true")) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		return false;
 	}
 	
 }
