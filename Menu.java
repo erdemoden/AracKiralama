@@ -194,8 +194,22 @@ public class Menu extends JFrame {
 		JButton btnFGirisyap = new JButton("Giriş");
 		btnFGirisyap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-			}
+				try {
+					boolean check = service.firma_Giris(firgirisim.getText(),firgirsifre.getText());
+					if(check == false) {
+						alert.showMessageDialog(rootPane,"Kullanıcı Bulunamadı Lütfen Tekrar Deneyiniz !");
+					}
+					else {
+						MusteriEkran musteriEkran = new MusteriEkran();
+						dispose();
+						musteriEkran.setVisible(true);
+					}
+					
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				
+			}}
 		});
 		btnFGirisyap.setBounds(91, 219, 117, 29);
 		fPanel.add(btnFGirisyap);

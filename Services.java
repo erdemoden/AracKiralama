@@ -69,6 +69,7 @@ public class Services {
 	}
 	
 	public boolean firma_Giris(String isim,String sifre) throws SQLException {
+		statement = con.createStatement();
 		String sorgu = ("Select Case WHEN EXISTS(SELECT*from patika.Firma where isim="+"'"+isim+"'"+"and sifre="+"'"+sifre+"'"+")"+"then 'true' else 'false' End as kontrol");
 		ResultSet rs = statement.executeQuery(sorgu);
 		
