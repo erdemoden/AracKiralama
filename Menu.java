@@ -111,6 +111,7 @@ public class Menu extends JFrame {
 					}
 					else {
 						MusteriEkran musteriEkran = new MusteriEkran();
+						musteriEkran.musterikarsila.setText("Merhaba "+ txtIsim.getText());
 						dispose();
 						musteriEkran.setVisible(true);
 					}
@@ -200,9 +201,9 @@ public class Menu extends JFrame {
 						alert.showMessageDialog(rootPane,"Kullanıcı Bulunamadı Lütfen Tekrar Deneyiniz !");
 					}
 					else {
-						MusteriEkran musteriEkran = new MusteriEkran();
+						FirmaEkran firmaEkran = new FirmaEkran();
 						dispose();
-						musteriEkran.setVisible(true);
+						firmaEkran.setVisible(true);
 					}
 					
 				} catch (SQLException e1) {

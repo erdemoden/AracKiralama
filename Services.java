@@ -76,9 +76,11 @@ public class Services {
 		while(rs.next()) {
 			String check = rs.getString("kontrol");
 			if(check.equals("true")) {
+				
 				return true;
 			}
 			else {
+				System.out.println("Oldu");
 				return false;
 			}
 		}
@@ -99,5 +101,9 @@ public class Services {
 		}
 		return false;
 	}
+	
+	// Select(case date_bas when date_bas is null then "false" else "true" end) as deneme FROM patika.Firma Inner Join patika.Arabalar ON patika.Firma.id =patika.Arabalar.firma_id;
+
+
 	
 }
