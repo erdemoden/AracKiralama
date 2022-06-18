@@ -7,14 +7,19 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
@@ -23,12 +28,12 @@ public class FirmaEkran extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textAracModel;
-	int year = 2022;
-	int month = 1;
-	int year1 = 2022;
-	int month1 = 1;
-	ArrayList<Integer> days = new ArrayList<Integer>();
-	ArrayList<Integer> days1 = new ArrayList<Integer>();
+	String year = "2022";
+	String month = "01";
+	String year1 = "2022";
+	String month1 = "01";
+	ArrayList<String> days = new ArrayList<String>();
+	ArrayList<String> days1 = new ArrayList<String>();
 	/**
 	 * Launch the application.
 	 */
@@ -50,11 +55,18 @@ public class FirmaEkran extends JFrame {
 	 * Create the frame.
 	 */
 	public FirmaEkran() {
+		final JOptionPane alert = new JOptionPane();
 		setResizable(false);
-		YearMonth ym = YearMonth.of(year, month);
+		YearMonth ym = YearMonth.of(Integer.parseInt(year), Integer.parseInt(month));
 		for(int i =1;i<=ym.lengthOfMonth();i++) {
-			days.add(i);
-			days1.add(i);
+			if(i<10) {
+				days.add("0"+String.valueOf(i));
+				days1.add("0"+String.valueOf(i));
+			}
+			else {
+			days.add(String.valueOf(i));
+			days1.add(String.valueOf(i));
+			}
 		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 500, 462);
@@ -87,6 +99,7 @@ public class FirmaEkran extends JFrame {
 		contentPane.add(lblAracTip);
 		
 		JComboBox comboAracTip = new JComboBox();
+		comboAracTip.setModel(new DefaultComboBoxModel(new String[] {"binek", "spor", "arazi", "ticari"}));
 		comboAracTip.setBounds(170, 160, 157, 27);
 		contentPane.add(comboAracTip);
 		
@@ -104,16 +117,21 @@ public class FirmaEkran extends JFrame {
 		comboErkenYil.setModel(new DefaultComboBoxModel(new String[] {"2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030", "2031", "2032", "2033", "2034", "2035", "2036", "2037", "2038", "2039", "2040"}));
 		comboErkenYil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				year = Integer.parseInt((String) comboErkenYil.getSelectedItem());
+				year = (String) comboErkenYil.getSelectedItem();
 				days.removeAll(days);
-				YearMonth ym = YearMonth.of(year, month);
+				YearMonth ym = YearMonth.of(Integer.parseInt(year), Integer.parseInt(month));
 				for(int i =1;i<=ym.lengthOfMonth();i++) {
-					days.add(i);
+					if(i<10) {
+						days.add("0"+String.valueOf(i));
+					}
+					else {
+					days.add(String.valueOf(i));
+					}
 				}
 				adddays(days);
 			}
 
-			private void adddays(ArrayList<Integer> days) {
+			private void adddays(ArrayList<String> days) {
 				comboErkenGun.removeAllItems();
 				comboErkenGun.setModel(new DefaultComboBoxModel(days.toArray()));
 				
@@ -128,15 +146,20 @@ public class FirmaEkran extends JFrame {
 		comboErkenAy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				days.removeAll(days);
-				month = comboErkenAy.getSelectedIndex()+1;
-				YearMonth ym = YearMonth.of(year, month);
+				month = (String) comboErkenAy.getSelectedItem();
+				YearMonth ym = YearMonth.of(Integer.parseInt(year), Integer.parseInt(month));
 				for(int i =1;i<=ym.lengthOfMonth();i++) {
-					days.add(i);
+					if(i<10) {
+						days.add("0"+String.valueOf(i));
+					}
+					else {
+					days.add(String.valueOf(i));
+					}
 				}
 				adddays(days);
 			}
 
-			private void adddays(ArrayList<Integer> days) {
+			private void adddays(ArrayList<String> days) {
 				
 			comboErkenGun.removeAllItems();
 			comboErkenGun.setModel(new DefaultComboBoxModel(days.toArray()));
@@ -182,16 +205,21 @@ public class FirmaEkran extends JFrame {
 		final JComboBox comboGecYil = new JComboBox();
 		comboGecYil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				year1 = Integer.parseInt((String) comboGecYil.getSelectedItem());
+				year1 = (String) comboGecYil.getSelectedItem();
 				days1.removeAll(days1);
-				YearMonth ym = YearMonth.of(year1, month1);
+				YearMonth ym = YearMonth.of(Integer.parseInt(year1), Integer.parseInt(month1));
 				for(int i =1;i<=ym.lengthOfMonth();i++) {
-					days1.add(i);
+					if(i<10) {
+						days1.add("0"+String.valueOf(i));
+					}
+					else {
+					days1.add(String.valueOf(i));
+					}
 				}
-				adddays(days);
+				adddays(days1);
 			}
 
-			private void adddays(ArrayList<Integer> days) {
+			private void adddays(ArrayList<String> days1) {
 				comboGecGun.removeAllItems();
 				comboGecGun.setModel(new DefaultComboBoxModel(days1.toArray()));
 				
@@ -206,16 +234,21 @@ public class FirmaEkran extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				days1.removeAll(days1);
-				month1 = comboGecAy.getSelectedIndex()+1;
-				YearMonth ym = YearMonth.of(year1, month1);
+				month1 = (String) comboGecAy.getSelectedItem();
+				YearMonth ym = YearMonth.of(Integer.parseInt(year1),Integer.parseInt(month1));
 				for(int i =1;i<=ym.lengthOfMonth();i++) {
-					days1.add(i);
+					if(i<10) {
+						days1.add("0"+String.valueOf(i));
+					}
+					else {
+					days1.add(String.valueOf(i));
+					}
 				}
 				adddays(days1);
 				
 			}
 
-			private void adddays(ArrayList<Integer> days1) {
+			private void adddays(ArrayList<String> days1) {
 				comboGecGun.removeAllItems();
 				comboGecGun.setModel(new DefaultComboBoxModel(days1.toArray()));
 				
@@ -246,6 +279,28 @@ public class FirmaEkran extends JFrame {
 		contentPane.add(lblGecGun);
 		
 		JButton btnKayıtEt = new JButton("Aracı Kayıt Et");
+		btnKayıtEt.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				String sDate1 = comboErkenGun.getSelectedItem()+"/"+month+"/"+year;				
+				String sDate2 = comboGecGun.getSelectedItem()+"/"+month1+"/"+year1;
+				
+				System.out.println(sDate1);
+				 try {
+					Date date1=(Date) new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
+					 Date date2=(Date) new SimpleDateFormat("dd/MM/yyyy").parse(sDate2);
+					 if(textAracModel.getText().isBlank()) {
+							alert.showMessageDialog(rootPane, "Lütfen Bütün Alanları Doldurun!");
+						}
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}  
+					
+					
+					
+				 
+			}
+		});
 		btnKayıtEt.setBounds(190, 360, 117, 49);
 		contentPane.add(btnKayıtEt);
 		
