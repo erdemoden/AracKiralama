@@ -52,7 +52,7 @@ public class Menu extends JFrame {
 	public Menu() throws SQLException {
 		setResizable(false);
 		final JOptionPane alert = new JOptionPane();
-		final Services service = new Services();
+		final RegisterServices service = new RegisterServices();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();

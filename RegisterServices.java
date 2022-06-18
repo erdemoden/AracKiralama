@@ -9,7 +9,7 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 
 
-public class Services {
+public class RegisterServices {
 
 	private String kullanici_adi = "root";
 	private String parola = "password";
@@ -24,7 +24,7 @@ public class Services {
 	
 	private Statement statement = null;
 	
-	public Services() throws SQLException {
+	public RegisterServices() throws SQLException {
 		String url = "jdbc:mysql://"+host+":"+port+"/"+db_ismi+"?useUnicode=true&characterEncoding=utf8";
 		
 		con = DriverManager.getConnection(url,kullanici_adi,parola);

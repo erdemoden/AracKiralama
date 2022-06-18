@@ -85,7 +85,7 @@ public class Musteri_Kayit extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Services service = new Services();
+					RegisterServices service = new RegisterServices();
 					if(musteriad.getText().isBlank()||sifre.getText().isBlank()||sifre_tekrar.getText().isBlank()) {
 						alert.showMessageDialog(rootPane, "Lütfen Bütün Alanları Doldurun!");
 					}

@@ -93,7 +93,7 @@ public class Firma_Kayit extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				try {
-					Services service = new Services();
+					RegisterServices service = new RegisterServices();
 					if(firma_adi.getText().isBlank()||sifre.getText().isBlank()||sifre_tekrar.getText().isBlank()) {
 						alert.showMessageDialog(rootPane, "Lütfen Bütün Alanları Doldurun!");
 					}

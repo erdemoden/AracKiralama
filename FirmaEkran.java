@@ -12,12 +12,23 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.time.YearMonth;
+import java.util.ArrayList;
+import java.util.List;
+import java.awt.event.ActionEvent;
+import javax.swing.DefaultComboBoxModel;
 
 public class FirmaEkran extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textAracModel;
-
+	int year = 2022;
+	int month = 1;
+	int year1 = 2022;
+	int month1 = 1;
+	ArrayList<Integer> days = new ArrayList<Integer>();
+	ArrayList<Integer> days1 = new ArrayList<Integer>();
 	/**
 	 * Launch the application.
 	 */
@@ -25,6 +36,7 @@ public class FirmaEkran extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					
 					FirmaEkran frame = new FirmaEkran();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -38,6 +50,12 @@ public class FirmaEkran extends JFrame {
 	 * Create the frame.
 	 */
 	public FirmaEkran() {
+		setResizable(false);
+		YearMonth ym = YearMonth.of(year, month);
+		for(int i =1;i<=ym.lengthOfMonth();i++) {
+			days.add(i);
+			days1.add(i);
+		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 500, 462);
 		contentPane = new JPanel();
@@ -78,17 +96,60 @@ public class FirmaEkran extends JFrame {
 		lblErken.setBounds(155, 199, 192, 16);
 		contentPane.add(lblErken);
 		
-		JComboBox comboErkenYil = new JComboBox();
-		comboErkenYil.setBounds(140, 236, 67, 27);
+		final JComboBox comboErkenGun = new JComboBox(days.toArray());
+		comboErkenGun.setBounds(290, 236, 67, 27);
+		contentPane.add(comboErkenGun);
+		
+		final JComboBox comboErkenYil = new JComboBox();
+		comboErkenYil.setModel(new DefaultComboBoxModel(new String[] {"2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030", "2031", "2032", "2033", "2034", "2035", "2036", "2037", "2038", "2039", "2040"}));
+		comboErkenYil.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				year = Integer.parseInt((String) comboErkenYil.getSelectedItem());
+				days.removeAll(days);
+				YearMonth ym = YearMonth.of(year, month);
+				for(int i =1;i<=ym.lengthOfMonth();i++) {
+					days.add(i);
+				}
+				adddays(days);
+			}
+
+			private void adddays(ArrayList<Integer> days) {
+				comboErkenGun.removeAllItems();
+				comboErkenGun.setModel(new DefaultComboBoxModel(days.toArray()));
+				
+			}
+		});
+		comboErkenYil.setBounds(124, 236, 83, 27);
 		contentPane.add(comboErkenYil);
 		
-		JComboBox comboErkenAy = new JComboBox();
+		
+		
+		final JComboBox comboErkenAy = new JComboBox();
+		comboErkenAy.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				days.removeAll(days);
+				month = comboErkenAy.getSelectedIndex()+1;
+				YearMonth ym = YearMonth.of(year, month);
+				for(int i =1;i<=ym.lengthOfMonth();i++) {
+					days.add(i);
+				}
+				adddays(days);
+			}
+
+			private void adddays(ArrayList<Integer> days) {
+				
+			comboErkenGun.removeAllItems();
+			comboErkenGun.setModel(new DefaultComboBoxModel(days.toArray()));
+				
+			}
+
+			
+		});
+		comboErkenAy.setModel(new DefaultComboBoxModel(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"}));
 		comboErkenAy.setBounds(215, 236, 67, 27);
 		contentPane.add(comboErkenAy);
 		
-		JComboBox comboErkenGun = new JComboBox();
-		comboErkenGun.setBounds(290, 236, 67, 27);
-		contentPane.add(comboErkenGun);
+		
 		
 		JLabel lblErkenYil = new JLabel("Yıl");
 		lblErkenYil.setFont(new Font("Lucida Grande", Font.BOLD, 13));
@@ -114,17 +175,57 @@ public class FirmaEkran extends JFrame {
 		lblGec.setBounds(155, 275, 192, 16);
 		contentPane.add(lblGec);
 		
-		JComboBox comboGecYil = new JComboBox();
-		comboGecYil.setBounds(140, 311, 67, 27);
+		final JComboBox comboGecGun = new JComboBox(days1.toArray());
+		comboGecGun.setBounds(290, 311, 67, 27);
+		contentPane.add(comboGecGun);
+		
+		final JComboBox comboGecYil = new JComboBox();
+		comboGecYil.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				year1 = Integer.parseInt((String) comboGecYil.getSelectedItem());
+				days1.removeAll(days1);
+				YearMonth ym = YearMonth.of(year1, month1);
+				for(int i =1;i<=ym.lengthOfMonth();i++) {
+					days1.add(i);
+				}
+				adddays(days);
+			}
+
+			private void adddays(ArrayList<Integer> days) {
+				comboGecGun.removeAllItems();
+				comboGecGun.setModel(new DefaultComboBoxModel(days1.toArray()));
+				
+			}
+		});
+		comboGecYil.setModel(new DefaultComboBoxModel(new String[] {"2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030", "2031", "2032", "2033", "2034", "2035", "2036", "2037", "2038", "2039", "2040"}));
+		comboGecYil.setBounds(124, 311, 83, 27);
 		contentPane.add(comboGecYil);
 		
-		JComboBox comboGecAy = new JComboBox();
+		final JComboBox comboGecAy = new JComboBox();
+		comboGecAy.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				days1.removeAll(days1);
+				month1 = comboGecAy.getSelectedIndex()+1;
+				YearMonth ym = YearMonth.of(year1, month1);
+				for(int i =1;i<=ym.lengthOfMonth();i++) {
+					days1.add(i);
+				}
+				adddays(days1);
+				
+			}
+
+			private void adddays(ArrayList<Integer> days1) {
+				comboGecGun.removeAllItems();
+				comboGecGun.setModel(new DefaultComboBoxModel(days1.toArray()));
+				
+			}
+		});
+		comboGecAy.setModel(new DefaultComboBoxModel(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"}));
 		comboGecAy.setBounds(215, 311, 67, 27);
 		contentPane.add(comboGecAy);
 		
-		JComboBox comboGecGun = new JComboBox();
-		comboGecGun.setBounds(290, 311, 67, 27);
-		contentPane.add(comboGecGun);
+		
 		
 		JLabel lblGecYil = new JLabel("Yıl");
 		lblGecYil.setHorizontalAlignment(SwingConstants.CENTER);
@@ -155,5 +256,7 @@ public class FirmaEkran extends JFrame {
 		JButton btnTumAraclar = new JButton("Tüm Araçlarım");
 		btnTumAraclar.setBounds(383, -2, 117, 49);
 		contentPane.add(btnTumAraclar);
+		
+		
 	}
 }
