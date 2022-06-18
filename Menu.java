@@ -202,6 +202,7 @@ public class Menu extends JFrame {
 					}
 					else {
 						FirmaEkran firmaEkran = new FirmaEkran();
+						firmaEkran.firmaisim = firgirisim.getText();
 						dispose();
 						firmaEkran.setVisible(true);
 					}

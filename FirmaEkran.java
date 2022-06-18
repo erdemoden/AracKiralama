@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Patika.Models.AracModel;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
@@ -14,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -23,17 +27,21 @@ import java.util.Date;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class FirmaEkran extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textAracModel;
+	String firmaisim = "";
 	String year = "2022";
 	String month = "01";
 	String year1 = "2022";
 	String month1 = "01";
 	ArrayList<String> days = new ArrayList<String>();
 	ArrayList<String> days1 = new ArrayList<String>();
+	private JTextField textGunlukFiyat;
 	/**
 	 * Launch the application.
 	 */
@@ -53,8 +61,11 @@ public class FirmaEkran extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws SQLException 
 	 */
-	public FirmaEkran() {
+	public FirmaEkran() throws SQLException {
+		final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		final FirmaServices firmaService = new FirmaServices();
 		final JOptionPane alert = new JOptionPane();
 		setResizable(false);
 		YearMonth ym = YearMonth.of(Integer.parseInt(year), Integer.parseInt(month));
@@ -69,7 +80,7 @@ public class FirmaEkran extends JFrame {
 			}
 		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 500, 462);
+		setBounds(100, 100, 500, 504);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -98,7 +109,7 @@ public class FirmaEkran extends JFrame {
 		lblAracTip.setBounds(200, 132, 100, 16);
 		contentPane.add(lblAracTip);
 		
-		JComboBox comboAracTip = new JComboBox();
+		final JComboBox comboAracTip = new JComboBox();
 		comboAracTip.setModel(new DefaultComboBoxModel(new String[] {"binek", "spor", "arazi", "ticari"}));
 		comboAracTip.setBounds(170, 160, 157, 27);
 		contentPane.add(comboAracTip);
@@ -278,20 +289,49 @@ public class FirmaEkran extends JFrame {
 		lblGecGun.setBounds(300, 297, 47, 16);
 		contentPane.add(lblGecGun);
 		
+		JLabel lblGunlukFiyat = new JLabel("Günlük Fiyat");
+		lblGunlukFiyat.setHorizontalAlignment(SwingConstants.CENTER);
+		lblGunlukFiyat.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		lblGunlukFiyat.setBounds(200, 350, 100, 16);
+		contentPane.add(lblGunlukFiyat);
+		
+		textGunlukFiyat = new JTextField();
+		textGunlukFiyat.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char c = e.getKeyChar();
+				
+				if(!Character.isDigit(c)) {
+					e.consume();
+				}
+			}
+		});
+		textGunlukFiyat.setColumns(10);
+		textGunlukFiyat.setBounds(170, 378, 161, 32);
+		contentPane.add(textGunlukFiyat);
+		
 		JButton btnKayıtEt = new JButton("Aracı Kayıt Et");
 		btnKayıtEt.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				String sDate1 = comboErkenGun.getSelectedItem()+"/"+month+"/"+year;				
-				String sDate2 = comboGecGun.getSelectedItem()+"/"+month1+"/"+year1;
+				String sDate1 = year+"-"+month+"-"+comboErkenGun.getSelectedItem();				
+				String sDate2 = year1+"-"+month1+"-"+comboGecGun.getSelectedItem();
 				
-				System.out.println(sDate1);
+				
 				 try {
-					Date date1=(Date) new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
-					 Date date2=(Date) new SimpleDateFormat("dd/MM/yyyy").parse(sDate2);
-					 if(textAracModel.getText().isBlank()) {
+					Date date1= formatter.parse(sDate1);
+					 Date date2= formatter.parse(sDate2);
+					 if(textAracModel.getText().isBlank()|| textGunlukFiyat.getText().isBlank()) {
 							alert.showMessageDialog(rootPane, "Lütfen Bütün Alanları Doldurun!");
 						}
-				} catch (ParseException e1) {
+					 else if(date1.after(date2)) {
+						 alert.showMessageDialog(rootPane,"En Erken Kiralama Tarihi En Geç Kiralama Tarihinden Büyük Olmamaz");
+					 }
+					 else {
+						AracModel aracModel = new AracModel(textAracModel.getText(),Integer.parseInt(textGunlukFiyat.getText()),comboAracTip.getSelectedItem().toString(),date1,date2);
+						firmaService.aracEkle(firmaisim, aracModel);
+						 alert.showMessageDialog(rootPane,"Araç Başarı İle Kayıt Edildi");
+					 }
+				} catch (ParseException | SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}  
@@ -301,7 +341,7 @@ public class FirmaEkran extends JFrame {
 				 
 			}
 		});
-		btnKayıtEt.setBounds(190, 360, 117, 49);
+		btnKayıtEt.setBounds(191, 421, 117, 49);
 		contentPane.add(btnKayıtEt);
 		
 		JButton btnMenuDon = new JButton("Menüye Dön");
@@ -311,6 +351,8 @@ public class FirmaEkran extends JFrame {
 		JButton btnTumAraclar = new JButton("Tüm Araçlarım");
 		btnTumAraclar.setBounds(383, -2, 117, 49);
 		contentPane.add(btnTumAraclar);
+		
+		
 		
 		
 	}
