@@ -42,7 +42,7 @@ public class FirmaServices {
 		while(rs.next()) {
 			firmaid = Integer.parseInt(rs.getString("firmaid"));
 		}
-		String sorgu2 = ("Insert into Arabalar (araba_model,gunluk_fiyat,arac_tip,date_bas,date_bit,firma_id) Values("+"'"+aracModel.getAraba_model()+"'"+","+"'"+aracModel.getGunluk_fiyat()+"'"+","+aracModel.getArac_tip()+"'"+","+"'"+formatter.format(aracModel.getDate_bas())+"'"+","+"'"+formatter.format(aracModel.getDate_bit())+"'"+","+"'"+firmaid+"'"+")");
+		String sorgu2 = ("Insert into Arabalar (araba_model,gunluk_fiyat,arac_tip,date_bas,date_bit,firma_id) VALUES("+"'"+aracModel.getAraba_model()+"'"+","+"'"+aracModel.getGunluk_fiyat()+"'"+","+"'"+aracModel.getArac_tip()+"'"+","+"'"+formatter.format(aracModel.getDate_bas())+"'"+","+"'"+formatter.format(aracModel.getDate_bit())+"'"+","+"'"+firmaid+"'"+")");
 		statement.executeUpdate(sorgu2);
 	}
 }

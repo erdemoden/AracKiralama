@@ -29,6 +29,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.JTable;
 
 public class FirmaEkran extends JFrame {
 
@@ -345,12 +346,29 @@ public class FirmaEkran extends JFrame {
 		contentPane.add(btnKayıtEt);
 		
 		JButton btnMenuDon = new JButton("Menüye Dön");
+		btnMenuDon.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Menu menu = new Menu();
+					dispose();
+					menu.setVisible(true);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 		btnMenuDon.setBounds(0, -2, 117, 49);
 		contentPane.add(btnMenuDon);
 		
 		JButton btnTumAraclar = new JButton("Tüm Araçlarım");
 		btnTumAraclar.setBounds(383, -2, 117, 49);
 		contentPane.add(btnTumAraclar);
+		
+		JButton btnKiralananAraclarim = new JButton("Kiralanan Araçlarım");
+		btnKiralananAraclarim.setBounds(358, 55, 142, 49);
+		contentPane.add(btnKiralananAraclarim);
 		
 		
 		
