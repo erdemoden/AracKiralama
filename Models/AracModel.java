@@ -17,6 +17,9 @@ public class AracModel {
 		this.date_bas = date_bas;
 		this.date_bit = date_bit;
 	}
+	public AracModel() {
+		
+	}
 	public String getAraba_model() {
 		return araba_model;
 	}

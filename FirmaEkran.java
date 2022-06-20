@@ -365,6 +365,20 @@ public class FirmaEkran extends JFrame {
 		contentPane.add(btnMenuDon);
 		
 		JButton btnTumAraclar = new JButton("Tüm Araçlarım");
+		btnTumAraclar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					FirmaArabalar firmaArabalar = new FirmaArabalar();
+					firmaArabalar.firmaisim = firmaisim;
+					dispose();
+					firmaArabalar.setVisible(true);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 		btnTumAraclar.setBounds(383, -2, 117, 49);
 		contentPane.add(btnTumAraclar);
 		
