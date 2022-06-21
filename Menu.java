@@ -111,7 +111,6 @@ public class Menu extends JFrame {
 					}
 					else {
 						MusteriEkran musteriEkran = new MusteriEkran();
-						musteriEkran.musterikarsila.setText("Merhaba "+ txtIsim.getText());
 						dispose();
 						musteriEkran.setVisible(true);
 					}

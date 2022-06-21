@@ -52,7 +52,7 @@ public class FirmaArabalar extends JFrame {
 	 * Create the frame.
 	 * @throws SQLException 
 	 */
-	public FirmaArabalar(String firmaisim) throws SQLException {
+	public FirmaArabalar(final String firmaisim) throws SQLException {
 		final JOptionPane alert = new JOptionPane();
 		this.firmaisim = firmaisim;
 		final FirmaServices service = new FirmaServices();
@@ -73,8 +73,8 @@ public class FirmaArabalar extends JFrame {
 		model.addColumn("Araba Model");
 		model.addColumn("Günlük Fiyat");
 		model.addColumn("Araç Tipi");
-		model.addColumn("Kiralama Başlangıç");
-		model.addColumn("En Son Kiralama Günü");
+		model.addColumn("Tarihinden");
+		model.addColumn("Tarihine");
 		model.addColumn("id");
 		for (AracModel aracModel : aracModels) {
 			model.addRow(new Object[]{aracModel.getAraba_model(),aracModel.getGunluk_fiyat(),aracModel.getArac_tip(),aracModel.getDate_bas(),aracModel.getDate_bit(),aracModel.getId()});
@@ -89,6 +89,20 @@ public class FirmaArabalar extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		JButton btnncekiSayfayaDn = new JButton("Önceki Sayfaya Dön");
+		btnncekiSayfayaDn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					FirmaEkran firmaEkran = new FirmaEkran();
+					firmaEkran.firmaisim = firmaisim;
+					dispose();
+					firmaEkran.setVisible(true);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 		btnncekiSayfayaDn.setBounds(0, 277, 146, 49);
 		contentPane.add(btnncekiSayfayaDn);
 		
