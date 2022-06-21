@@ -368,8 +368,7 @@ public class FirmaEkran extends JFrame {
 		btnTumAraclar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					FirmaArabalar firmaArabalar = new FirmaArabalar();
-					firmaArabalar.firmaisim = firmaisim;
+					FirmaArabalar firmaArabalar = new FirmaArabalar(firmaisim);
 					dispose();
 					firmaArabalar.setVisible(true);
 				} catch (SQLException e1) {

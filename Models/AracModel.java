@@ -9,6 +9,7 @@ public class AracModel {
 	private String arac_tip;
 	private Date date_bas;
 	private Date date_bit;
+	private int id;
 	public AracModel(String araba_model, int gunluk_fiyat, String arac_tip, Date date_bas, Date date_bit) {
 		super();
 		this.araba_model = araba_model;
@@ -19,6 +20,22 @@ public class AracModel {
 	}
 	public AracModel() {
 		
+	}
+	
+	public AracModel(String araba_model, int gunluk_fiyat, String arac_tip, Date date_bas, Date date_bit, int id) {
+		super();
+		this.araba_model = araba_model;
+		this.gunluk_fiyat = gunluk_fiyat;
+		this.arac_tip = arac_tip;
+		this.date_bas = date_bas;
+		this.date_bit = date_bit;
+		this.id = id;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getAraba_model() {
 		return araba_model;

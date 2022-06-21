@@ -52,32 +52,41 @@ public class FirmaServices {
 		List <AracModel> aracmod = new ArrayList<AracModel>();
 		statement = con.createStatement();
 		int firmaid = 0;
-		String sorgu = ("select id as firmaid from Firma where isim = "+"'"+firmaisim+"'");
+		String sorgu = ("Select id as firmaid from Firma where isim = "+"'"+firmaisim+"'");
 		ResultSet rs = statement.executeQuery(sorgu);
 		
 		while(rs.next()) {
-			firmaid = Integer.parseInt(rs.getString(firmaid));
+			firmaid = Integer.parseInt(rs.getString("firmaid"));
 			
 		}
 		
-		String sorgu2 = ("Select * from Arabalar where firma_id = "+"'"+firmaid+"'");
+		String sorgu2 = ("Select araba_model,gunluk_fiyat,arac_tip,date_bas,date_bit,id from Arabalar where firma_id = "+"'"+firmaid+"'");
 		
 		ResultSet rs2 = statement.executeQuery(sorgu2);
 		
 		while(rs2.next()) {
-			System.out.println(rs2.getString("araba_model"));
 			AracModel aracmodel = new AracModel();
 			aracmodel.setAraba_model(rs2.getString("araba_model"));
 			aracmodel.setGunluk_fiyat(rs2.getInt("gunluk_fiyat"));
 			aracmodel.setArac_tip(rs2.getString("arac_tip"));
 			aracmodel.setDate_bas(rs2.getDate("date_bas"));
 			aracmodel.setDate_bit(rs2.getDate("date_bit"));
+			aracmodel.setId(rs2.getInt("id"));
 			aracmod.add(aracmodel);
 		}
 		for (AracModel aracModel : aracmod) {
 			System.out.println(aracModel.getAraba_model());
 		}
+		System.out.println(firmaid);
 		return aracmod;
 		
+	}
+	
+	public void deleteSelectedCar(Object object) throws SQLException {
+		statement = con.createStatement();
+		
+		String sorgu = ("Delete from Arabalar where id = "+"'"+object+"'");
+		
+		statement.executeUpdate(sorgu);
 	}
 }

@@ -16,18 +16,22 @@ import java.awt.Color;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class FirmaArabalar extends JFrame {
 
 	private JPanel contentPane;
 	private JTable aracTablo;
-	String firmaisim = "";
+	String firmaisim;
 	/**
 	 * Launch the application.
 	 */
@@ -35,7 +39,7 @@ public class FirmaArabalar extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FirmaArabalar frame = new FirmaArabalar();
+					FirmaArabalar frame = new FirmaArabalar("");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -48,8 +52,10 @@ public class FirmaArabalar extends JFrame {
 	 * Create the frame.
 	 * @throws SQLException 
 	 */
-	public FirmaArabalar() throws SQLException {
-		FirmaServices service = new FirmaServices();
+	public FirmaArabalar(String firmaisim) throws SQLException {
+		final JOptionPane alert = new JOptionPane();
+		this.firmaisim = firmaisim;
+		final FirmaServices service = new FirmaServices();
 		List<AracModel> aracModels = new ArrayList<AracModel>();
 		aracModels = service.aracGetir(firmaisim);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -69,16 +75,12 @@ public class FirmaArabalar extends JFrame {
 		model.addColumn("Araç Tipi");
 		model.addColumn("Kiralama Başlangıç");
 		model.addColumn("En Son Kiralama Günü");
+		model.addColumn("id");
 		for (AracModel aracModel : aracModels) {
-			model.addRow(new Object[]{aracModel.getAraba_model()});
-			model.addRow(new Object[] {aracModel.getGunluk_fiyat()});
-			model.addRow(new Object[] {aracModel.getArac_tip()});
-			model.addRow(new Object[] {aracModel.getDate_bas()});
-			model.addRow(new Object[] {aracModel.getDate_bit()});
+			model.addRow(new Object[]{aracModel.getAraba_model(),aracModel.getGunluk_fiyat(),aracModel.getArac_tip(),aracModel.getDate_bas(),aracModel.getDate_bit(),aracModel.getId()});
+			
 		}
-		JButton btnSeilenAracSil = new JButton("Seçilen Aracı Sil");
-		btnSeilenAracSil.setBounds(533, 277, 117, 49);
-		contentPane.add(btnSeilenAracSil);
+		
 		
 		JLabel lblNewLabel = new JLabel("Tüm Arabalarım");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -95,5 +97,35 @@ public class FirmaArabalar extends JFrame {
 		contentPane.add(scrollPane_1);
 		aracTablo = new JTable(model);
 		scrollPane_1.setViewportView(aracTablo);
+		
+		JButton btnSeilenAracSil = new JButton("Seçilen Aracı Sil");
+		btnSeilenAracSil.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel model = (DefaultTableModel) aracTablo.getModel();
+				if(aracTablo.getSelectedRowCount() == 1) {
+				System.out.println(model.getValueAt(aracTablo.getSelectedRow(),5));
+				try {
+					service.deleteSelectedCar(model.getValueAt(aracTablo.getSelectedRow(), 5));
+				} catch (NumberFormatException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+					model.removeRow(aracTablo.getSelectedRow());
+				}
+				else {
+					if(aracTablo.getSelectedRowCount() == 0) {
+						alert.showMessageDialog(rootPane, "Lütfen Silmek İstediğiniz Aracı Seçin");
+					}
+					else {
+						alert.showMessageDialog(rootPane, "Birden Fazla Araç Seçmeyin");
+					}
+				}
+			}
+		});
+		btnSeilenAracSil.setBounds(533, 277, 117, 49);
+		contentPane.add(btnSeilenAracSil);
 	}
 }
