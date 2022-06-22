@@ -37,7 +37,7 @@ public List<AracModel> aracListele(String sehir ) throws SQLException {
 	List <AracModel> aracmod = new ArrayList<AracModel>();
 	statement = con.createStatement();
 	
-	String sorgu = ("Select araba_model,gunluk_fiyat,arac_tip,date_bas,date_bit,sehir,isim from patika.Arabalar Inner Join patika.Firma On patika.Firma.id = patika.Arabalar.firma_id where sehir ="+"'"+sehir+"'");
+	String sorgu = ("Select patika.Arabalar.id,araba_model,gunluk_fiyat,arac_tip,patika.Arabalar.date_bas,patika.Arabalar.date_bit,sehir,isim from patika.Arabalar Inner Join patika.Firma On patika.Firma.id = patika.Arabalar.firma_id Left Join patika.Randevu On patika.Randevu.araba_id = patika.Arabalar.id where patika.Randevu.id IS NULL and sehir ="+"'"+sehir+"'");
 	
 	ResultSet rs = statement.executeQuery(sorgu);
 	
@@ -50,10 +50,26 @@ public List<AracModel> aracListele(String sehir ) throws SQLException {
 		aracmodel.setDate_bit(rs.getDate("date_bit"));
 		aracmodel.setSehir(rs.getString("sehir"));
 		aracmodel.setFirmaisim(rs.getString("isim"));
+		aracmodel.setId(rs.getInt("id"));
 		aracmod.add(aracmodel);
 	}
 	return aracmod;
 	
+}
+public void RandevuAl(AracModel aracModel,String musteriisim) throws SQLException {
+	statement = con.createStatement();
+	int musteriId = 0;
+	String sorgu = ("Select id as musteriid from Musteri where isim = "+"'"+musteriisim+"'");
+	ResultSet rs = statement.executeQuery(sorgu);
+	
+	while(rs.next()) {
+		musteriId = Integer.parseInt(rs.getString("musteriid"));
+		
+	}
+	
+	String sorgu2 = ("Insert Into Randevu (date_bas,musteri_id,araba_id,date_bit) VALUES("+"'"+aracModel.getDate_bas()+"'"+","+"'"+musteriId+"'"+","+"'"+aracModel.getId()+"'"+","+"'"+aracModel.getDate_bit()+"'"+")");
+	
+	statement.executeUpdate(sorgu2);
 }
 
 }

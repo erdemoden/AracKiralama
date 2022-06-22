@@ -35,17 +35,17 @@ public class AracModel {
 	}
 	
 	
-	public AracModel(String araba_model, int gunluk_fiyat, String arac_tip, Date date_bas, Date date_bit, int id,
-			String sehir,String firmaisim) {
+	public AracModel(Object object, Object object2, Object object3, Object object4, Object object5, Object object6,
+			Object object7,Object object8) {
 		super();
-		this.araba_model = araba_model;
-		this.gunluk_fiyat = gunluk_fiyat;
-		this.arac_tip = arac_tip;
-		this.date_bas = date_bas;
-		this.date_bit = date_bit;
-		this.id = id;
-		this.sehir = sehir;
-		this.firmaisim = firmaisim;
+		this.araba_model = (String) object;
+		this.gunluk_fiyat = (int) object2;
+		this.arac_tip = (String) object3;
+		this.date_bas = (Date) object4;
+		this.date_bit = (Date) object5;
+		this.id = (int) object6;
+		this.sehir = (String) object7;
+		this.firmaisim = (String) object8;
 	}	
 	public String getFirmaisim() {
 		return firmaisim;

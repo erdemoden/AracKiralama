@@ -29,8 +29,9 @@ import javax.swing.JScrollPane;
 public class MusteriEkran extends JFrame {
 
 	private JPanel contentPane;
-	private JTable Tablo;
+	private JTable aracTablo;
 	private JTextField txtsehir;
+	String musteriisim = "erdem";
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -61,6 +62,7 @@ public class MusteriEkran extends JFrame {
 		contentPane.setLayout(null);
 		
 		final DefaultTableModel model = new DefaultTableModel();
+		model.addColumn("id");
 		model.addColumn("Araba Model");
 		model.addColumn("Günlük Fiyat");
 		model.addColumn("Araç Tipi");
@@ -73,10 +75,38 @@ public class MusteriEkran extends JFrame {
 		scrollPane.setBounds(6, 76, 638, 255);
 		contentPane.add(scrollPane);
 		
-		Tablo = new JTable(model);
-		scrollPane.setViewportView(Tablo);
+		aracTablo = new JTable(model);
+		scrollPane.setViewportView(aracTablo);
 		
 		JButton btnkirala = new JButton("Araç Kirala");
+		btnkirala.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				DefaultTableModel model = (DefaultTableModel) aracTablo.getModel();
+				if(aracTablo.getSelectedRowCount() == 1) {
+				System.out.println(model.getValueAt(aracTablo.getSelectedRow(),5));
+				try {
+					AracModel aracModel = new AracModel(model.getValueAt(aracTablo.getSelectedRow(),1),model.getValueAt(aracTablo.getSelectedRow(),2),model.getValueAt(aracTablo.getSelectedRow(),3),model.getValueAt(aracTablo.getSelectedRow(),4),model.getValueAt(aracTablo.getSelectedRow(),5),model.getValueAt(aracTablo.getSelectedRow(),0),model.getValueAt(aracTablo.getSelectedRow(),6),model.getValueAt(aracTablo.getSelectedRow(),7));
+					musteriService.RandevuAl(aracModel,musteriisim);
+				} catch (NumberFormatException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+					model.removeRow(aracTablo.getSelectedRow());
+				}
+				else {
+					if(aracTablo.getSelectedRowCount() == 0) {
+						alert.showMessageDialog(rootPane, "Lütfen Silmek İstediğiniz Aracı Seçin");
+					}
+					else {
+						alert.showMessageDialog(rootPane, "Birden Fazla Araç Seçmeyin");
+					}
+				}
+			}
+		});
 		btnkirala.setBounds(253, 334, 130, 59);
 		contentPane.add(btnkirala);
 		
@@ -104,8 +134,11 @@ public class MusteriEkran extends JFrame {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			while (model.getRowCount() > 0) {
+			       model.removeRow(0);
+			}
 			for (AracModel aracModel : aracModels) {
-				model.addRow(new Object[]{aracModel.getAraba_model(),aracModel.getGunluk_fiyat(),aracModel.getArac_tip(),aracModel.getDate_bas(),aracModel.getDate_bit(),aracModel.getSehir(),aracModel.getFirmaisim()});
+				model.addRow(new Object[]{aracModel.getId(),aracModel.getAraba_model(),aracModel.getGunluk_fiyat(),aracModel.getArac_tip(),aracModel.getDate_bas(),aracModel.getDate_bit(),aracModel.getSehir(),aracModel.getFirmaisim()});
 			}
 			}
 		});
