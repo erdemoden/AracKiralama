@@ -10,16 +10,23 @@ import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+
+import Patika.Models.AracModel;
 
 public class MusteriRandevu extends JFrame {
 
 	private JPanel contentPane;
 	private JTable randevuTable;
-
+	String musteriisim;
 	/**
 	 * Launch the application.
 	 */
@@ -27,7 +34,7 @@ public class MusteriRandevu extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MusteriRandevu frame = new MusteriRandevu();
+					MusteriRandevu frame = new MusteriRandevu("");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -38,8 +45,20 @@ public class MusteriRandevu extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws SQLException 
 	 */
-	public MusteriRandevu() {
+	public MusteriRandevu(String musteriisim) throws SQLException {
+		this.musteriisim = musteriisim;
+		DefaultTableModel model = new DefaultTableModel();
+		model.addColumn("id");
+		model.addColumn("Araba Model");
+		model.addColumn("Günlük Fiyat");
+		model.addColumn("Şehir");
+		model.addColumn("Tarihinden");
+		model.addColumn("Tarihine");
+		final MusteriServices service = new MusteriServices();
+		List<AracModel> aracModels = new ArrayList<AracModel>();
+		aracModels = service.randevuListele(this.musteriisim);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 650, 401);
 		contentPane = new JPanel();
@@ -66,7 +85,7 @@ public class MusteriRandevu extends JFrame {
 		scrollPane.setBounds(6, 62, 638, 242);
 		contentPane.add(scrollPane);
 		
-		randevuTable = new JTable();
+		randevuTable = new JTable(model);
 		scrollPane.setViewportView(randevuTable);
 	}
 }

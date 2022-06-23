@@ -31,7 +31,7 @@ public class MusteriEkran extends JFrame {
 	private JPanel contentPane;
 	private JTable aracTablo;
 	private JTextField txtsehir;
-	String musteriisim = "erdem";
+	String musteriisim = "";
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

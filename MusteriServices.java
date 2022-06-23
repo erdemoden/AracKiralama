@@ -72,4 +72,32 @@ public void RandevuAl(AracModel aracModel,String musteriisim) throws SQLExceptio
 	statement.executeUpdate(sorgu2);
 }
 
+public List<AracModel> randevuListele(String musteriisim) throws SQLException {
+	List <AracModel> aracmod = new ArrayList<AracModel>();
+	statement = con.createStatement();
+	int musteriId = 0;
+	String sorgu = ("Select id as musteriid from Musteri where isim = "+"'"+musteriisim+"'");
+	ResultSet rs = statement.executeQuery(sorgu);
+	
+	while(rs.next()) {
+		musteriId = Integer.parseInt(rs.getString("musteriid"));
+		
+	}
+	String sorgu2 = ("Select patika.Randevu.id,araba_model,gunluk_fiyat,sehir,patika.Randevu.date_bas,patika.Randevu.date_bit from patika.Musteri Inner Join patika.Randevu On patika.Musteri.id = patika.Randevu.musteri_id Inner Join patika.Arabalar On patika.Randevu.araba_id = patika.Arabalar.id Inner Join patika.Firma On patika.Arabalar.firma_id = patika.Firma.id");
+
+	ResultSet rs2 = statement.executeQuery(sorgu2);
+	
+	while(rs2.next()) {
+		AracModel aracmodel = new AracModel();
+		aracmodel.setId(rs2.getInt("id"));
+		aracmodel.setAraba_model(rs2.getString("araba_model"));
+		aracmodel.setGunluk_fiyat(rs2.getInt("gunluk_fiyat"));
+		aracmodel.setSehir(rs2.getString("sehir"));
+		aracmodel.setDate_bas(rs2.getDate("date_bas"));
+		aracmodel.setDate_bit(rs2.getDate("date_bit"));
+		aracmod.add(aracmodel);
+	}
+	return aracmod;
+
+}
 }
