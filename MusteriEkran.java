@@ -146,10 +146,35 @@ public class MusteriEkran extends JFrame {
 		contentPane.add(btnlistele);
 		
 		JButton btnMenu = new JButton("Menü");
+		btnMenu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Menu menu = new Menu();
+					dispose();
+					menu.setVisible(true);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 		btnMenu.setBounds(6, 334, 130, 59);
 		contentPane.add(btnMenu);
 		
 		JButton btnkiraladiklarim = new JButton("Tüm Kiraladığım Araçlar");
+		btnkiraladiklarim.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					MusteriRandevu musteriRandevu = new MusteriRandevu(musteriisim);
+					dispose();
+					musteriRandevu.setVisible(true);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnkiraladiklarim.setBounds(474, 334, 170, 59);
 		contentPane.add(btnkiraladiklarim);
 	}

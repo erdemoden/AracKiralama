@@ -100,4 +100,12 @@ public List<AracModel> randevuListele(String musteriisim) throws SQLException {
 	return aracmod;
 
 }
+
+public void randevuSil(Object object) throws SQLException {
+	statement = con.createStatement();
+	
+	String sorgu = ("Delete from Randevu where id = "+"'"+object+"'");
+	
+	statement.executeUpdate(sorgu);
+}
 }
