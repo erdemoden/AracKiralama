@@ -368,7 +368,7 @@ public class FirmaEkran extends JFrame {
 		btnTumAraclar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					FirmaArabalar firmaArabalar = new FirmaArabalar(firmaisim);
+					FirmaArabalar firmaArabalar = new FirmaArabalar(firmaisim,false);
 					dispose();
 					firmaArabalar.setVisible(true);
 				} catch (SQLException e1) {
@@ -382,6 +382,18 @@ public class FirmaEkran extends JFrame {
 		contentPane.add(btnTumAraclar);
 		
 		JButton btnKiralananAraclarim = new JButton("Kiralanan Araçlarım");
+		btnKiralananAraclarim.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					FirmaArabalar firmaArabalar = new FirmaArabalar(firmaisim,true);
+					dispose();
+					firmaArabalar.setVisible(true);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnKiralananAraclarim.setBounds(358, 55, 142, 49);
 		contentPane.add(btnKiralananAraclarim);
 		

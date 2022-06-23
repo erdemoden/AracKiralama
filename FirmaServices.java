@@ -89,4 +89,33 @@ public class FirmaServices {
 		
 		statement.executeUpdate(sorgu);
 	}
+	
+	public List <AracModel>randevuGetir(String firmaisim) throws SQLException {
+		List <AracModel> aracmod = new ArrayList<AracModel>();
+		statement = con.createStatement();
+		int firmaid = 0;
+		String sorgu = ("Select id as firmaid from Firma where isim = "+"'"+firmaisim+"'");
+		ResultSet rs = statement.executeQuery(sorgu);
+	
+		while(rs.next()) {
+			firmaid = Integer.parseInt(rs.getString("firmaid"));
+			
+		}
+		
+		String sorgu2 = ("Select isim,araba_model,gunluk_fiyat,arac_tip,Arabalar.date_bas,Arabalar.date_bit From patika.Randevu Inner Join patika.Arabalar On patika.Randevu.araba_id = patika.Arabalar.id Inner Join patika.Musteri On patika.Randevu.musteri_id = patika.Musteri.id where patika.Arabalar.firma_id = "+"'"+firmaid+"'");
+
+		ResultSet rs2 = statement.executeQuery(sorgu2);
+		
+		while(rs2.next()) {
+			AracModel aracmodel = new AracModel();
+			aracmodel.setAraba_model(rs2.getString("araba_model"));
+			aracmodel.setGunluk_fiyat(rs2.getInt("gunluk_fiyat"));
+			aracmodel.setArac_tip(rs2.getString("arac_tip"));
+			aracmodel.setDate_bas(rs2.getDate("date_bas"));
+			aracmodel.setDate_bit(rs2.getDate("date_bit"));
+			aracmodel.setMusteriIsim(rs2.getString("isim"));
+			aracmod.add(aracmodel);
+		}
+		return aracmod;
+	}
 }

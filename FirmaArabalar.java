@@ -32,6 +32,7 @@ public class FirmaArabalar extends JFrame {
 	private JPanel contentPane;
 	private JTable aracTablo;
 	String firmaisim;
+	boolean randevu;
 	/**
 	 * Launch the application.
 	 */
@@ -39,7 +40,7 @@ public class FirmaArabalar extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FirmaArabalar frame = new FirmaArabalar("");
+					FirmaArabalar frame = new FirmaArabalar("",false);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -52,12 +53,18 @@ public class FirmaArabalar extends JFrame {
 	 * Create the frame.
 	 * @throws SQLException 
 	 */
-	public FirmaArabalar(final String firmaisim) throws SQLException {
+	public FirmaArabalar(final String firmaisim,boolean randevu) throws SQLException {
 		final JOptionPane alert = new JOptionPane();
 		this.firmaisim = firmaisim;
+		this.randevu = randevu;
 		final FirmaServices service = new FirmaServices();
 		List<AracModel> aracModels = new ArrayList<AracModel>();
+		if(this.randevu == false) {
 		aracModels = service.aracGetir(firmaisim);
+		}
+		else {
+			aracModels = service.randevuGetir(firmaisim);
+		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 650, 360);
 		contentPane = new JPanel();
@@ -70,6 +77,7 @@ public class FirmaArabalar extends JFrame {
 //				 {"Audi","345","Binek","2022-03-25","2022-07-25"}
 //		 };
 		DefaultTableModel model = new DefaultTableModel();
+		if(this.randevu == false) {
 		model.addColumn("Araba Model");
 		model.addColumn("Günlük Fiyat");
 		model.addColumn("Araç Tipi");
@@ -80,6 +88,20 @@ public class FirmaArabalar extends JFrame {
 			model.addRow(new Object[]{aracModel.getAraba_model(),aracModel.getGunluk_fiyat(),aracModel.getArac_tip(),aracModel.getDate_bas(),aracModel.getDate_bit(),aracModel.getId()});
 			
 		}
+		}
+		else {
+			model.addColumn("Araba Model");
+			model.addColumn("Günlük Fiyat");
+			model.addColumn("Araç Tipi");
+			model.addColumn("Tarihinden");
+			model.addColumn("Tarihine");
+			model.addColumn("Kiralayan İsim");
+			for (AracModel aracModel : aracModels) {
+				model.addRow(new Object[]{aracModel.getAraba_model(),aracModel.getGunluk_fiyat(),aracModel.getArac_tip(),aracModel.getDate_bas(),aracModel.getDate_bit(),aracModel.getMusteriIsim()});
+				
+			}
+		}
+		
 		
 		
 		JLabel lblNewLabel = new JLabel("Tüm Arabalarım");
@@ -112,6 +134,7 @@ public class FirmaArabalar extends JFrame {
 		aracTablo = new JTable(model);
 		scrollPane_1.setViewportView(aracTablo);
 		
+		
 		JButton btnSeilenAracSil = new JButton("Seçilen Aracı Sil");
 		btnSeilenAracSil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -139,6 +162,9 @@ public class FirmaArabalar extends JFrame {
 				}
 			}
 		});
+		if(this.randevu == true) {
+			btnSeilenAracSil.setEnabled(false);
+		}
 		btnSeilenAracSil.setBounds(533, 277, 117, 49);
 		contentPane.add(btnSeilenAracSil);
 	}

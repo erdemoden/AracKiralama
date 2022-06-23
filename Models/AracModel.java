@@ -12,6 +12,7 @@ public class AracModel {
 	private int id;
 	private String sehir;
 	private String firmaisim;
+	private String musteriIsim;
 	public AracModel(String araba_model, int gunluk_fiyat, String arac_tip, Date date_bas, Date date_bit) {
 		super();
 		this.araba_model = araba_model;
@@ -95,5 +96,12 @@ public class AracModel {
 	public void setDate_bit(Date date_bit) {
 		this.date_bit = date_bit;
 	}
+	public String getMusteriIsim() {
+		return musteriIsim;
+	}
+	public void setMusteriIsim(String musteriIsim) {
+		this.musteriIsim = musteriIsim;
+	}
+	
 	
 }
